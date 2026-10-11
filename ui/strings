@@ -1,0 +1,4 @@
+changed="{0} has changed: {1}. Open Changedetection.io from the main menu → Watches to see what's different."
+checkfailed="{0} couldn't be checked: {1}"
+changedmany="{0} watched pages changed at once. Open Changedetection.io from the main menu → Watches."
+dsmtest="A test from Changedetection.io: when a watched page changes, DSM tells you like this."

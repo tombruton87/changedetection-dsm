@@ -1,0 +1,43 @@
+# Changedetection.io, as the Synology package runs it: the compose project in
+# the changedetection shared folder. The setup container writes .env beside
+# this. Watches, their snapshots and the settings live in the
+# changedetection_data volume (a DSM shared folder's ACLs admit only the
+# package's user). Backups go to the share.
+services:
+  server:
+    image: ${CD_IMAGE:-ghcr.io/dgtlmoon/changedetection.io:0.60.9}
+    container_name: changedetection-server
+    restart: unless-stopped
+    ports:
+      - "${HTTP_PORT:-5090}:5000"
+    volumes:
+      - data:/datastore
+    environment:
+      TZ: ${TZ:-UTC}
+      LOGGER_LEVEL: INFO
+      # The address in notification links.
+      BASE_URL: ${APP_URL:-}
+      # Behind DSM's reverse proxy: honour its X-Forwarded headers (empty = off).
+      USE_X_SETTINGS: ${X_SETTINGS:-}
+      # Pages on your own network (192.168…, 10…, this NAS): refused unless true.
+      ALLOW_IANA_RESTRICTED_ADDRESSES: ${LAN_PAGES:-false}
+      # The Chrome browser below, when it's on (empty = plain fetching only).
+      PLAYWRIGHT_DRIVER_URL: ${BROWSER_URL:-}
+      HIDE_REFERER: "true"
+
+  # Chrome for pages that need JavaScript (upstream's sockpuppetbrowser). Off
+  # unless COMPOSE_PROFILES in .env names "browser" — it needs about 1 GB more memory.
+  browser:
+    profiles: ["browser"]
+    image: ${BROWSER_IMAGE:-dgtlmoon/sockpuppetbrowser:latest}
+    container_name: changedetection-browser
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ:-UTC}
+      SCREEN_WIDTH: "1920"
+      SCREEN_HEIGHT: "1024"
+      SCREEN_DEPTH: "16"
+      MAX_CONCURRENT_CHROME_PROCESSES: "3"
+
+volumes:
+  data:

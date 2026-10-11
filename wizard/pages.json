@@ -1,0 +1,18 @@
+, {
+    "step_title": "Changedetection.io",
+    "items": [{
+        "type": "singleselect",
+        "desc": "Changedetection.io has one password for everyone. With protection on, the package makes a strong password at the first start and shows it once in the Changedetection.io window in DSM — no password to type here. It can be changed or turned off there later.",
+        "subitems": [
+            { "key": "wizard_protect_on", "desc": "Ask for a password (recommended)", "defaultValue": true },
+            { "key": "wizard_protect_off", "desc": "No password: anyone who can reach it on your network can use it", "defaultValue": false }
+        ]
+    }, {
+        "type": "singleselect",
+        "desc": "Most pages are fetched directly, which is quick and light. Pages that only show their content with JavaScript need a real browser — Chrome in a second container, about a 500 MB download and roughly 1 GB more memory while it runs. It can be turned on or off later in the window.",
+        "subitems": [
+            { "key": "wizard_browser_off", "desc": "Plain fetching only (light; fine for most pages)", "defaultValue": true },
+            { "key": "wizard_browser_on", "desc": "Also run the browser for JavaScript pages", "defaultValue": false }
+        ]
+    }]
+}

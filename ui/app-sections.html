@@ -1,0 +1,47 @@
+    <section data-page="watches" hidden>
+      <div class="note">Every page Changedetection.io watches: when it last changed, when it was last checked, and anything that went wrong. Check one now, pause it, or add a new one here; filters, schedules and the history of each page are in <a class="cd-link" href="#" target="_blank" rel="noopener">Changedetection.io</a> itself.</div>
+      <div class="tiles" id="w-tiles"></div>
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px"><input type="search" id="w-q" placeholder="Search watches…" autocomplete="off" style="max-width:300px"><span class="muted small" id="w-count"></span><span style="margin-left:auto" id="w-all"></span></div>
+      <div class="card"><table><thead><tr><th>State</th><th>Watch</th><th>Last change</th><th>Last check</th><th class="n"></th></tr></thead><tbody id="watches"></tbody></table></div>
+      <div class="card"><h2>Watch a page</h2><div class="in">
+        <label class="f"><span>Web address</span><input type="text" id="wa-url" placeholder="https://example.com/prices" autocomplete="off"></label>
+        <label class="f"><span>Title (optional — otherwise the page's own)</span><input type="text" id="wa-title" maxlength="200" autocomplete="off"></label>
+        <p id="wa-browser-row" hidden><label><input type="checkbox" id="wa-browser"> Use the browser (for pages that only show their content with JavaScript)</label></p>
+        <button class="btn primary" id="wa-add" data-app>Add and check it now</button>
+        <p class="muted small">It's checked every 3 hours, or as set in Changedetection.io (Settings, or the watch's own Edit page), where you can also narrow it to part of the page.</p></div></div>
+      <div class="card"><h2>Pages on your own network</h2><div class="in">
+        <p class="muted small">Changedetection.io refuses addresses on your own network (192.168…, 10…, this Synology) unless you allow them — a guard for servers shared with strangers. Allow them to watch your router's or printer's pages, or other apps on this NAS.</p>
+        <p><span id="lan-state"></span> <span class="row" style="display:inline-flex" id="lan-btn"></span></p></div></div>
+      <div class="card"><h2>Browser for JavaScript pages</h2><div class="in">
+        <p class="muted small">Most pages are fetched directly, which is quick and light. Pages that build their content with JavaScript (many shops, single-page apps) need a real browser: Chrome in a second container, upstream's <i>sockpuppetbrowser</i>. It's about a 500 MB download and needs roughly 1 GB more memory while it runs.</p>
+        <p><span id="br-state"></span> <span class="row" style="display:inline-flex" id="br-btn"></span></p></div></div>
+    </section>
+
+    <section data-page="alerts" hidden>
+      <div class="note">Two ways to hear about a change: DSM's own notifications (the bell, and on to your phone or email through DSM's notification settings), and Changedetection.io's notifications, which go through <a href="https://github.com/caronc/apprise/wiki" target="_blank" rel="noopener">Apprise</a> to ntfy, email, Telegram, Discord and many more.</div>
+      <div class="card"><h2>DSM notifications</h2><div class="in">
+        <p class="muted small">Checked about once a minute, or every few seconds while this window is open. Watches muted in Changedetection.io stay quiet here too.</p>
+        <label class="f"><span>Tell DSM</span><select id="dn-mode">
+          <option value="changes">When a watched page changes</option>
+          <option value="all">When a page changes, and when one can't be checked</option>
+          <option value="off">Never — Changedetection.io's own notifications only</option>
+        </select></label>
+        <div class="row"><button class="btn primary" id="dn-save" data-app>Save</button><button class="btn" data-act="dsmtest">Send a test</button></div></div></div>
+      <div class="card" id="ntfy-card"><h2>ntfy on this Synology</h2><div class="in" id="ntfy-box"></div></div>
+      <div class="card"><h2>Changedetection.io's notification addresses<span class="right"><button class="btn" id="nt-all" data-app>Send a test to all</button></span></h2>
+        <table><tbody id="notes"></tbody></table>
+        <div class="in" style="border-top:1px solid var(--line)">
+          <label class="f"><span>Add an Apprise address</span><span class="inline"><input type="text" id="nt-url" placeholder="ntfys://ntfy.example.com/my-topic   mailtos://user:pass@example.com   tgram://bottoken/chatid" autocomplete="off"><button class="btn primary" id="nt-add" data-app>Add</button></span></label>
+          <p class="muted small">These go to every watch that uses the default notification settings. Addresses are shown without their secrets.</p></div></div>
+    </section>
+
+    <section data-page="access" hidden>
+      <div class="note" id="acc-note">…</div>
+      <div class="card"><h2>Password protection<span class="right" id="acc-chip"></span></h2><div class="in">
+        <p class="muted small">Changedetection.io has one password for everyone, no user names. Changes here restart it for a few seconds.</p>
+        <div class="row" id="acc-btns"></div></div></div>
+      <div class="card"><h2>Your own password</h2><div class="in">
+        <label class="f"><span>Password (8 to 128 characters)</span><span class="inline"><input type="password" id="acc-pw" autocomplete="new-password" maxlength="128"><button class="btn primary" id="acc-set" data-app>Set this password</button></span></label>
+        <p class="muted small">It isn't stored by the package: Changedetection.io keeps only a salted hash, as it does when you set it in its own Settings.</p></div></div>
+      <div class="card"><h2>API key</h2><div class="in"><p class="muted small">The window reads your watches through Changedetection.io's API with the key in its Settings → API. If you make a new key there, the window picks it up by itself; if you turn the key off, the API is open to anyone who can reach it.</p></div></div>
+    </section>
